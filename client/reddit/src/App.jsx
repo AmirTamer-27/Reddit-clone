@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import './App.css'
-import CommunityDetails from '../components/CommunityCreation/CommunityDetails/CommunityDetails'
+import CreationWizard from '../components/CommunityCreation/CreationWizard'
 
 function App() {
     return(
         <>
-        <CommunityDetails/>
+        <CreationWizard/>
         </>
     )
   

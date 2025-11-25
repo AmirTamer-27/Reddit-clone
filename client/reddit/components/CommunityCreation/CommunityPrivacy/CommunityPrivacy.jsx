@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Stack } from "@mui/material";
 import PrivacyRadioButtons from "./PrivacyRadioButtons";
-export default function CommunityPrivacy(){
-    const [privacy , setPrivacy] = useState('public')
+export default function CommunityPrivacy(props){
+    const {privacy , setPrivacy} = props
     return(
         <Stack direction='column'>
             <Stack direction='column'>

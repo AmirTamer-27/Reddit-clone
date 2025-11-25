@@ -10,7 +10,7 @@ export default function CommunityDescription(props){
         })
     }
     return(
-        <TextField id="outlined-basic" label="Description" variant="outlined"  value={des} onChange={(e)=>{handleChange(e)}} multiline   rows={4}  sx={{borderRadius : 176 , width : 405 , margin:2}} />
+        <TextField id="outlined-basic" label="Description" variant="outlined"  value={des} onChange={(e)=>{handleChange(e)}} multiline   rows={4}  sx={{borderRadius : 176 , width : 405 , margin:1}} />
 
     )
 

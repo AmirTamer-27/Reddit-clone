@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { mockCategories } from "../../../mockData/Topics";
 import Stack from '@mui/material/Stack';
 import TopicSearch from "./TopicSearch";
 import SelectedTopics from './SelectedTopics'
+import { mockCategories } from "../../../mockData/Topics";
 import TopicsSection from "./TopicsSection";
-export default function AddTopics(){
+export default function AddTopics(props){
+    const {allCategories , setAllCategories,selectedTopics , setSelectedTopics} = props
     const [errorFlag , setErrorFlag] = useState(false)
-    const [allCategories , setAllCategories] = useState(mockCategories)
-    const [selectedTopics , setSelectedTopics] = useState([])
     const updateSelected = (topic , action)=>{
         setSelectedTopics((prev)=>{
-            if(selectedTopics.length == 3 && action == 'add'){
+            if(prev.length == 3 && action == 'add'){
                 setErrorFlag(true)
             return prev
         }

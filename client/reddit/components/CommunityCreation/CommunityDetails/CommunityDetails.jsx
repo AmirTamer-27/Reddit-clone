@@ -4,8 +4,8 @@ import CommunityName from "./CommunityName";
 import { Stack } from "@mui/material";
 import Preview from "./Preveiw";
 
-export default function CommunityDetails(){
-    const [communityDetails , setCommunityDetails] = useState({name : '' , description : ''})
+export default function CommunitnyDetails(props){
+    const {communityDetails , setCommunityDetails , communityVisuals} = props
     return(
         <>
          <h2 style={{marginBottom : 2}}>Tell us about your community</h2>
@@ -13,13 +13,14 @@ export default function CommunityDetails(){
         <Stack direction='row'>
             <Stack direction='column' justifyContent='space-between'>
                 <CommunityName setCommunityDetails = {setCommunityDetails}/>
+                <span style={{alignSelf : 'flex-end', marginRight : 23 , opacity : 0.7}}>{communityDetails.name.length}/21</span>
                 <CommunityDescription  setCommunityDetails = {setCommunityDetails}/>
+                <span style={{alignSelf : 'flex-end', marginRight : 23 , opacity : 0.7}}>{communityDetails.description.length}</span>
             </Stack>
-            <Preview communityDetails = {communityDetails}/>
+            <Preview communityDetails = {communityDetails} communityVisuals = {communityVisuals}/>
         </Stack>
 
         </>
-        
     )
     
 }
