@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import './App.css'
-import CommunitiesPage from '../components/DisplayCommunities/CommunitiesPage'
+import AddTopics from '../components/CommunityCreation/AddTopics'
 function App() {
     return(
-        <CommunitiesPage/>
-
+        <>
+        <AddTopics/>
+        </>
     )
   
 }
