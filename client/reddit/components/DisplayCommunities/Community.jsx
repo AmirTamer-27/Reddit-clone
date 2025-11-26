@@ -1,3 +1,4 @@
+
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -13,25 +14,25 @@ export default function Community(props){
     <Card sx={{ maxWidth: 310, maxHeight: 76 , border : 'none', boxShadow : 'none'}}>
       <Box sx={{ p: 1.5 }}>
         <Stack direction="row" spacing={1.2} sx={{ alignItems: 'center' }}>
-          
-          <Typography variant="h6" component="div" sx={{ mb: 0  , width : 25}}>
+          {Cnum == 'no'? '': <Typography variant="h6" component="div" sx={{ mb: 0  , width : 25}}>
             {Cnum}
-          </Typography>
+          </Typography>}
+          
 
-          <Avatar alt="Remy Sharp" src={imgUrl} sx={{ width: 30, height: 30 }} />
+          <Avatar alt="Remy Sharp" src={imgUrl} sx={{ width: 50, height: 50 }} />
 
           <Stack direction="column" sx={{ ml: 0.5, alignItems: 'flex-start' }}>
             
-            <Typography variant="caption" component="div" sx={{ mb: 0 }}>
+            <Typography variant="caption" component="div" sx={{ mb: 0, fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.2 }}>
               {communityName}
             </Typography>
 
-            <Typography variant="caption" component="div" sx={{ mb: 0  , whiteSpace : 'nowrap' , overflow : 'hidden' , textOverflow : 'ellipsis' , maxWidth : 212}}> 
+            <Typography variant="caption" component="div" sx={{ mb: 0, whiteSpace : 'nowrap' , overflow : 'hidden' , textOverflow : 'ellipsis' , maxWidth : 212, fontSize: '0.8rem', color: 'text.secondary', lineHeight: 1.3}}> 
               {communityDescription}
             </Typography>
 
-            <Typography variant="caption" component="div" sx={{ mb: 0 }}>
-              {numOfMembers}M Members
+            <Typography variant="caption" component="div" sx={{ mb: 0, fontSize: '0.75rem', color: 'text.secondary', lineHeight: 1.2 }}>
+              {numOfMembers}M weekly visitors
             </Typography>
 
           </Stack>
