@@ -101,7 +101,7 @@ const continueWithGoogle = () => {
 
               <SubText>
                 Already a redditor?{" "}
-                <a href="/login" style={{ color: "#5495ff" }}>
+                <a href="/" style={{ color: "#5495ff" }}>
                   Log in
                 </a>
               </SubText>
