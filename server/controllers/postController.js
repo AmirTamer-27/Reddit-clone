@@ -100,3 +100,190 @@ const deletePost = async (req, res) =>{
 
 
 
+const editPost = async (req, res)=>{
+    try{
+        const {pid} = req.params
+        const {title, content, mediaUrl, mediaType} = req.body;
+        const uid = req.user.id;
+
+        const userExists = await User.exists({_id:uid});
+        if (!userExists) return res.status(404).json({ message: "User not found" });
+        
+        const post = await Post.findById(pid);
+        if(!post){
+            return res.status(404).json({message: "Post not found"});
+        }
+
+        if (post.userID.toString() !== uid) {
+            return res.status(403).json({ message: "You are not authorized to delete this post" });
+        }
+
+        const post_u = await Post.findByIdAndUpdate(pid,
+            {
+                
+                title, 
+                content, 
+                mediaUrl, 
+                mediaType
+            },
+            {new:true}
+        );
+
+        res.status(200).json(post_u);
+
+    }catch(error){
+        res.status(500).json({message: error.message});
+    }
+}
+
+
+
+const upvotePost = async (req, res)=>{
+    try{
+        const {pid} = req.params;
+        const uid = req.user.id;
+
+        const userExists = await User.exists({_id:uid});
+        if (!userExists) return res.status(404).json({ message: "User not found" });
+        
+        const post = await Post.findById(pid);
+        if(!post){
+            return res.status(404).json({message: "Post not found"});
+        }
+
+
+        const isUp = post.upvotes.includes(uid);
+        
+        let updateQuery = {};
+
+        if (isUp) {
+            
+            updateQuery = { $pull: { upvotes: uid } };
+        } else {
+            
+            updateQuery = { 
+                $addToSet: { upvotes: uid }, 
+                $pull: { downvotes: uid }    
+            };
+        }
+
+        
+        const post_u = await Post.findByIdAndUpdate(pid, updateQuery, { new: true });
+
+        res.status(200).json(post_u);
+
+    }catch(error){
+        res.status(500).json({message:error.message});
+    }
+}
+
+
+
+const downvotePost = async (req, res)=>{
+    try{
+        const {pid} = req.params;
+        const uid = req.user.id;
+
+        const userExists = await User.exists({_id:uid});
+        if (!userExists) return res.status(404).json({ message: "User not found" });
+        
+        const post = await Post.findById(pid);
+        if(!post){
+            return res.status(404).json({message: "Post not found"});
+        }
+
+
+        const isDown = post.downvotes.includes(uid);
+        
+        let updateQuery = {};
+
+        if (isDown) {
+            
+            updateQuery = { $pull: { downvotes: uid } };
+        } else {
+            
+            updateQuery = { 
+                $addToSet: { downvotes: uid }, 
+                $pull: { upvotes: uid }    
+            };
+        }
+
+        
+        const post_u = await Post.findByIdAndUpdate(pid, updateQuery, { new: true });
+
+        res.status(200).json(post_u);
+
+    }catch(error){
+        res.status(500).json({message:error.message});
+    }
+}
+
+
+
+
+const awardPost = async (req, res)=>{
+    try{
+        const {pid, cid} = req.params;
+        const {awardName} = req.body;
+        const uid = req.user.id;
+
+        const user = await User.findById(uid);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const comm = await Community.findById(cid);
+        if(!comm){
+            return res.status(404).json({message: "Community not found"});
+        }
+
+        const post = await Post.findById(pid);
+        if(!post){
+            return res.status(404).json({message: "Post not found"});
+        }
+
+        const award = comm.Awards.find(a=> a.name === awardName);
+        if(!award){
+            return res.status(404).json({message: "Award not found"});
+        }
+
+        if(user.goldBalance < award.cost){
+            return res.status(404).json({message: "Not Enough Gold"});
+        }
+
+        await User.findByIdAndUpdate(uid, 
+            {
+                $inc: {goldBalance: -award.cost}
+            }
+        );
+
+        const post_u = await Post.findByIdAndUpdate(pid,
+            {
+                $push:{
+                    awardsReceived: {
+                        awardName: award.name,
+                        givenBy: uid,
+                        givenAt: new Date()
+                    }
+                }
+            },
+            {new: true} 
+        ).populate('awardsReceived.givenBy', 'username');
+
+        res.status(200).send(post_u);
+
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
+}
+
+
+
+module.exports = {
+    getPostsHomePage,
+    getPostsCommunity,
+    createPost,
+    deletePost,
+    editPost,
+    upvotePost,
+    downvotePost,
+    awardPost
+};
