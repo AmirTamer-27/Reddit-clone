@@ -4,7 +4,7 @@ const Community = require('../models/Community.js')
 
 const getPostsHomePage = async (req, res) =>{
     try{
-        const {uid} = req.params;
+        const uid = req.user.id;
         const user = await User.findById(uid).select('joinedCommunities interests');
 
         if (!user) return res.status(404).json({ message: "User not found" });
@@ -28,7 +28,9 @@ const getPostsHomePage = async (req, res) =>{
 
 const getPostsCommunity = async (req, res) =>{
     try{
-        const {uid, cid} = req.params;
+        const {cid} = req.params;
+        const uid = req.user.id;
+
 
         const userExists = await User.exists({_id:uid});
         if (!userExists) return res.status(404).json({ message: "User not found" });
@@ -50,7 +52,8 @@ const getPostsCommunity = async (req, res) =>{
 const createPost = async (req, res) =>{
     try{
 
-        const {title, content, mediaUrl, mediaType, userID, communityID} = req.body;
+        const {title, content, mediaUrl, mediaType, communityID} = req.body;
+        const userID = req.user.id;
 
         const newPost = await Post.create({
             title,
@@ -70,7 +73,8 @@ const createPost = async (req, res) =>{
 
 const deletePost = async (req, res) =>{
     try {
-        const { pid, uid } = req.params;
+        const { pid } = req.params;
+        const uid = req.user.id;
 
         
         const post = await Post.findById(pid);

@@ -7,6 +7,8 @@ Roles: {
     type: [String], 
     default: ["admin", "member"] 
   },
+icon: { type: String, default: "https://res.cloudinary.com/dp368vdzh/image/upload/v1764199563/reddit-planet_osteaw.jpg" },   
+banner: { type: String, default: "https://res.cloudinary.com/dp368vdzh/image/upload/v1764199647/baby-blue-color-solid-background-1920x1080_qxxp0v.png" },
 
   interests: [{ 
     type: String, 
