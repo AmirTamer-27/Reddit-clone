@@ -61,7 +61,7 @@ const getCommunities= async (req, res) => {
 
 const getCommunitiesByCategory = async (req, res) => {
   const userID = "4c740372-7c91-4bc2-945c-58a7ee0109b5"
-  const {category}=req.query
+  const {q}=req.query
 
   try {
    
