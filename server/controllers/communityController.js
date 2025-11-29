@@ -7,7 +7,7 @@ const { validationResult } = require('express-validator');
 
 
 const getCommunities= async (req, res) => {
-  const userID = req.user.id;
+  const userID = "4c740372-7c91-4bc2-945c-58a7ee0109b5";
 
   try {
    
@@ -60,15 +60,15 @@ const getCommunities= async (req, res) => {
 }
 
 const getCommunitiesByCategory = async (req, res) => {
-  const userID = req.user.id;
-  const {category}=req.query
+  const userID ="4c740372-7c91-4bc2-945c-58a7ee0109b5";
+  const {q}=req.query
 
   try {
    
     let communities = await Community.aggregate([
       {$match: {
       // privacy: { $in: ["public", "restricted"] },
-      interests: category 
+      interests: q 
     }},
       { $sort: { numberOfMembers: -1 } },
       { $limit: 1000 }
@@ -119,7 +119,7 @@ const getCommunitiesByCategory = async (req, res) => {
 // ✅ CREATE COMMUNITY ENDPOINT
 const createCommunity = async (req, res) => {
 const { name, description, interests,icon,banner,privacy } = req.body;
-const userID = req.user.id;
+const userID = "4c740372-7c91-4bc2-945c-58a7ee0109b5";
   if (!name || !userID) {
     return res.status(400).json({ message: "Name and UserID are required" });
   }
@@ -166,7 +166,7 @@ const userID = req.user.id;
 const updateCommunity = async (req, res) => {
   const communityID = req.params.id;
   const { name, description, interests,icon,banner,privacy } = req.body;
-  const userID = req.user.id;
+  const userID = "4c740372-7c91-4bc2-945c-58a7ee0109b5";
   if (!communityID || !userID) {
     return res.status(400).json({ message: "communityID and UserID are required" });
   }
@@ -214,7 +214,7 @@ const updateCommunity = async (req, res) => {
 const joinCommunity= async (req, res) => {
   const communityID = req.params.id;
   const {  action } = req.body; 
-  const userID = req.user.id;
+  const userID = "4c740372-7c91-4bc2-945c-58a7ee0109b5";
   try {
     let userUpdateResult;
 
@@ -266,7 +266,7 @@ const joinCommunity= async (req, res) => {
 // ✅ GET COMMUNITY BY ID (With "Am I a Member?" Check)
 const getCommunityById= async (req, res) => {
   const communityID = req.params.id;
-  const userID = req.user.id;
+  const userID = "4c740372-7c91-4bc2-945c-58a7ee0109b5";
   try {
     const community = await Community.findById(communityID);
     
@@ -310,8 +310,9 @@ const getCommunityById= async (req, res) => {
 
 
 const searchCommunity = async (req, res) => {
-  const { query } = req.query;
-  const userID =  req.user.id 
+  const { q } = req.query;
+  const userID = "4c740372-7c91-4bc2-945c-58a7ee0109b5" 
+  console.log(q)
 
   try {
     const userMap = {};
@@ -338,7 +339,7 @@ const searchCommunity = async (req, res) => {
     const recommendations = [];
 
     const exactMatch = await Community.findOne({
-      name: { $regex: new RegExp(`^${query}$`, "i") }
+      name: q
     });
 
     if (exactMatch) {
@@ -348,7 +349,7 @@ const searchCommunity = async (req, res) => {
    
     const substringMatches = await Community.find({
       _id: { $nin: excludedIds },
-      name: { $regex: new RegExp(query, "i") }
+      name: { $regex: new RegExp(q, "i") }
     }).limit(10);
 
     recommendations.push(...substringMatches);
@@ -405,6 +406,7 @@ const searchCommunity = async (req, res) => {
       found: !!exactMatch,
       exactMatch: exactMatch ? enhance([exactMatch])[0] : null,
       recommendations: enhance(recommendations)
+      
     });
 
   } catch (err) {
