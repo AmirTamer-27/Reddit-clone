@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { Box } from "@mui/material"
-import axios from 'axios';
+
 export default function CreationWizard(){
     const [allCategories , setAllCategories] = useState(mockCategories)
     const [selectedTopics , setSelectedTopics] = useState([])
@@ -26,7 +26,7 @@ export default function CreationWizard(){
         <CommunityVisuals communityVisuals= {communityVisuals} setCommunityVisuals ={setCommunityVisuals} communityDetails = {communityDetails}/>
     ]
     
-    const createCommunity = async()=>{
+    const createCommunity = ()=>{
         const communityObject  = {
             name : communityDetails.name,
             description: communityDetails.description,
@@ -35,22 +35,17 @@ export default function CreationWizard(){
             privacy : privacy,
             selectedTopics :selectedTopics
         }
-        try{
-        await axios.post("http://localhost:5000/api/communities/create" , communityObject)
-        alert("Community Created")
-        }
-        catch(e){
-            alert("error:" + e.message)
-        }
+     
+        alert("WTF")
+    
     }
-    const handleNext = ()=>{
-        setStep((prev)=>{
-            if(prev == 3){
-                createCommunity()
-                return
-            }
-            return prev+1
-        })
+    const handleNext = () => {
+        if (step === 3) {
+            createCommunity();
+            
+        } else {
+            setStep((prev) => prev + 1);
+        }
     }
     const handleBack = ()=>{
          setStep((prev)=>{
