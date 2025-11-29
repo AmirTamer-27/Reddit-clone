@@ -59,7 +59,7 @@ const getCommunities= async (req, res) => {
   }
 }
 
-const getCommunitiesByCategory= async (req, res) => {
+const getCommunitiesByCategory = async (req, res) => {
   const userID = req.user.id;
   const {category}=req.query
 
@@ -159,6 +159,53 @@ const userID = req.user.id;
     }
     
     console.error("Error creating community:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+}
+
+const updateCommunity = async (req, res) => {
+  const communityID = req.params.id;
+  const { name, description, interests,icon,banner,privacy } = req.body;
+  const userID = req.user.id;
+  if (!communityID || !userID) {
+    return res.status(400).json({ message: "communityID and UserID are required" });
+  }
+
+  try {
+    const user = await User.findById(userID).select("joinedCommunities");
+    
+    const membership = user.joinedCommunities.find(
+      (entry) => entry.community.toString() === communityID
+    );
+
+    if (!membership || membership.role !== 'admin') {
+      return res.status(403).json({ message: "Access Denied: You are not an admin of this community." });
+    }
+
+    const updateFields = {};
+    if (description) updateFields.description = description;
+    if (icon) updateFields.icon = icon;
+    if (banner) updateFields.banner = banner;
+    if (privacyType) updateFields.privacyType = privacyType;
+    if (interests) updateFields.interests = interests;
+
+    const updatedCommunity = await Community.findByIdAndUpdate(
+      communityID,
+      { $set: updateFields },
+      { new: true, runValidators: true } 
+    );
+
+    if (!updatedCommunity) {
+      return res.status(404).json({ message: "Community not found" });
+    }
+
+    res.json(updatedCommunity);
+
+  } catch (err) {
+    // 3. 🚨 HANDLE DUPLICATE NAME ERROR HERE
+   
+    
+    console.error("Error Updating community:", err);
     res.status(500).json({ message: "Server Error" });
   }
 }
@@ -371,5 +418,7 @@ module.exports = {
   createCommunity,
   joinCommunity,
   getCommunityById,
-  searchCommunity
+  searchCommunity,
+  getCommunitiesByCategory,
+  updateCommunity
 }

@@ -35,4 +35,6 @@ router.post(
   communityController.joinCommunity
 );
 
+router.put('/:id/update',communityController.updateCommunity)
+
 module.exports = router;
