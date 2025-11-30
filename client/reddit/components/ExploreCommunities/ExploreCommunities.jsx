@@ -16,16 +16,14 @@ export default function ExploreCommunities(){
         return statusCat
     })
     const [cats , setCats] = useState(cat)
-    const retrieveCommunities = (category)=>{
-        if(category == "All") return communities
-        return communities.filter((comm)=>{
-            return comm.category == category
-        })
+    const retrieveCommunities = async (category)=>{
+        //Ill get an array of objects , containing the topic and its subbreddits
+        
     }
     const starter = retrieveCommunities("All")
     const [communitiesArr , setCommunitiesArr] = useState(starter)
     return(
-        <Box sx={{display : 'flex' , flexDirection : 'column' , padding:10}}>
+        <Box sx={{display : 'flex' , flexDirection : 'column' , padding:10 , width : '95%'}}>
         <h1>Explore Communities</h1>
         <CategoryList cats = {cats} setCats = {setCats} setCommunitiesArr = {setCommunitiesArr} retrieveCommunities = {retrieveCommunities}/>
         <DisplayCategories communitiesArr = {communitiesArr}  setCommunitiesArr = {setCommunitiesArr}/>

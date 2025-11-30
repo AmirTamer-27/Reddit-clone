@@ -16,7 +16,7 @@ export default function CommunityPage({ communityId }) {
             let response = await axios.get("http://localhost:3000/api/communities/" + id);
             let data = response.data;
             setCommunity(data);      // <<< IMPORTANT
-            setJoined(data.isMember ? "Joined" : "Not Joined");
+            setJoined(data.isMember? "Joined" : "Not Joined");
         } 
         catch (e) {
             alert("Error: " + e.message);
@@ -38,7 +38,7 @@ export default function CommunityPage({ communityId }) {
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Header community={community} setJoined={setJoined} joined={joined} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                {/* <PostsSection posts={posts} /> */}
+                <PostsSection posts={posts} />
                 <CommunityDetails community={community} />
             </Box> 
         </Box>

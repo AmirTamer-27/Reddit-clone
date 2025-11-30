@@ -28,7 +28,7 @@ export default function CategoryList(props) {
     <>
     <Box
      sx={{
-            width: '100%',
+            width: '95%',
             display: 'flex',
             overflowX: 'auto',
             whiteSpace: 'nowrap',

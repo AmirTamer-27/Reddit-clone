@@ -259,7 +259,9 @@ const updateCommunity = async (req, res) => {
 // ✅ JOIN / LEAVE COMMUNITY (Toggle)
 const joinCommunity= async (req, res) => {
   const communityID = req.params.id;
-  const {  action } = req.body; 
+  const { action } = req.body; 
+  console.log(communityID)
+  const community = await Community.findById(communityID)
   const userID = "fe68c3e5-043a-4491-882c-e3f0e36277af"
   try {
     let userUpdateResult;

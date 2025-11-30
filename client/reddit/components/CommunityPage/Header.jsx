@@ -2,17 +2,25 @@ import React from 'react';
 import { Box, Button, IconButton, Avatar, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import axios from 'axios';
 
 export default function Header(props) {
     const {community , setJoined , joined} = props
-    const handleJoinClick = (status)=>{
+    const handleJoinClick = async (status)=>{
         if(status == 'Joined'){
             setJoined('Not Joined')
-            //Axios request
+            await axios.post(`http://localhost:3000/api/communities/${community._id}/join`, {
+              action : 0
+            } )
+            alert("Unjoined")
         }
         else{
             setJoined('Joined')
             //Axios request
+            await axios.post("http://localhost:3000/api/communities/" + community._id + '/join', {
+              action : 1
+            } )
+            alert("Joined")
         }
     }
   return (

@@ -72,7 +72,11 @@ export default function CommunityDetails(props) {
           {community.privacy}
         </Typography>
       </Box>
-
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Typography sx={{ color: '#7c7c7c', fontSize: '0.875rem' }}>
+          {community.userRole}
+        </Typography>
+      </Box>
       {/* Stats */}
       <Box
         sx={{
