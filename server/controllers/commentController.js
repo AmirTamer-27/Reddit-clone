@@ -119,6 +119,42 @@ const upvoteComment = async (req, res) =>{
     }
 }
 
+const editComment = async (req, res)=>{
+    try{
+        const {coid} = req.params
+        const {content, mediaUrl, mediaType} = req.body;
+        const uid = req.user.id;
+
+        const userExists = await User.exists({_id:uid});
+        if (!userExists) return res.status(404).json({ message: "User not found" });
+        
+        const comment = await Comment.findById(coid);
+        if(!comment){
+            return res.status(404).json({message: "Comment not found"});
+        }
+
+        if (comment.userID.toString() !== uid) {
+            return res.status(403).json({ message: "You are not authorized to edit this comment" });
+        }
+
+        const comment_u = await Comment.findByIdAndUpdate(coid,
+            {
+                
+                 
+                content, 
+                mediaUrl, 
+                mediaType
+            },
+            {new:true}
+        );
+
+        res.status(200).json(comment_u);
+
+    }catch(error){
+        res.status(500).json({message: error.message});
+    }
+}
+
 
 const downvoteComment = async (req, res) =>{
     try{
@@ -227,6 +263,7 @@ const awardComment = async (req, res)=>{
 module.exports = {
     createComment,
     deleteComment,
+    editComment,
     upvoteComment,
     downvoteComment,
     awardComment
