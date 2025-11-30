@@ -1,10 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import DisplayCategories from "./DisplayCategories";
 
-export default function DisplayAll({ communitiedAllArr, setCommunitiesArr }) {
+export default function DisplayAll(props) {
+    const { communitiesArr, retrieveCommunities } = props
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            {communitiedAllArr.map((topicObj, index) => (
+            {communitiesArr.map((topicObj, index) => (
                 <Box key={index} sx={{ width: "100%" }}>
                     <Typography 
                         variant="h6" 
@@ -18,7 +19,7 @@ export default function DisplayAll({ communitiedAllArr, setCommunitiesArr }) {
                     </Typography>
                     <DisplayCategories 
                         communitiesArr={topicObj.communities}
-                        setCommunitiesArr={setCommunitiesArr}
+                        retrieveCommunities={retrieveCommunities}
                     />
                 </Box>
             ))}

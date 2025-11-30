@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import CommunityBox from "./CommunityBox";
 
-export default function DisplayCategories({ communitiesArr, setCommunitiesArr }) {
+export default function DisplayCategories({ communitiesArr, retrieveCommunities }) {
     return (
         <Box 
             sx={{ 
@@ -16,7 +16,7 @@ export default function DisplayCategories({ communitiesArr, setCommunitiesArr })
                 <CommunityBox 
                     key={index}
                     community={community}
-                    setCommunitiesArr={setCommunitiesArr}
+                    retrieveCommunities={retrieveCommunities}
                 />
             ))}
         </Box>
