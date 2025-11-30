@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const connectDB = async () => {
   try {
     // Your specific MongoDB URI (Ensure you replace 'username' and 'pass' with real credentials or use .env)
-    const uri = "mongodb+srv://AmirTamer:Amirpassword@redditclone.5d2hpqu.mongodb.net/?appName=redditClone";
+    const uri = "mongodb+srv://MohamedWBadra:2512006.m@redditclone.5d2hpqu.mongodb.net/?appName=redditClone";
     
     await mongoose.connect(uri);
     console.log("✅ MongoDB Connected Successfully!");
