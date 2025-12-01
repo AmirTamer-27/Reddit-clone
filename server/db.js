@@ -319,6 +319,6 @@ const seedData = async () => {
   }
 };
 
-seedData();
+//seedData();
 
 module.exports = connectDB;

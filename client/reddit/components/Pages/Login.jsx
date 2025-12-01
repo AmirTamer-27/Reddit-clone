@@ -26,15 +26,35 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await api.post("/auth/login", data);
+      // 1. Send Post Request (Assuming your route is /login defined in server.js)
+      // If your backend routes are prefixed (e.g. app.use('/api', routes)), change this to "/api/login"
+      const response = await api.post("/api/users/login", {
+        email: data.username, // Backend expects 'email', you captured 'username'
+        password: data.password
+      });
 
-      if (response.data.accessToken) {
-        localStorage.setItem("accessToken", response.data.accessToken);
+      console.log("Login Response:", response.data);
+
+      // 2. Extract Token based on your Backend structure
+      // Your backend returns: { user: { token: "..." } }
+      const token = response.data.user?.token; 
+
+      if (token) {
+        // 3. Store token
+        localStorage.setItem("token", token);
+        
+        // 4. Redirect
+        // (If using react-router-dom, navigate('/') is smoother than window.location)
+        window.location.href = "/"; 
+      } else {
+        alert("Login successful but no token received.");
       }
 
-      window.location.href = "/";
     } catch (error) {
-      alert("Invalid username or password");
+      console.error("Login Error:", error);
+      // specific error message from backend
+      const message = error.response?.data?.message || "Invalid email or password";
+      alert(message);
     }
   };
 
