@@ -1,5 +1,11 @@
 const express = require('express');
 const { check } = require('express-validator');
+<<<<<<< HEAD
+=======
+const checkAuth = require('../middleware/check-auth');
+
+
+>>>>>>> 1dca0b652012526f4502534b3cbfbca508d82057
 const postController = require('../controllers/postController');
 const commentController = require('../controllers/commentController');
 const checkAuth = require('../middleware/checkAuth'); // Ensure you have this middleware to check authentication

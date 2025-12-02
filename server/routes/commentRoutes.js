@@ -13,13 +13,13 @@ router.get('/replies/:coid', commentController.getCommentReplies);
 
 
 router.use(checkAuth);
-router.post('/create', verifyToken, commentController.createComment);
+router.post('/create',  commentController.createComment);
 
 
-router.put('/edit/:coid', verifyToken, commentController.editComment);
+router.put('/edit/:coid',  commentController.editComment);
 
 
-router.delete('/:coid', verifyToken, commentController.deleteComment);
+router.delete('/:coid',  commentController.deleteComment);
 
 
 
