@@ -4,9 +4,10 @@ import Header from "./Header";
 import CommunityDetails from "../CommunityPage/CommunityDetails";
 import PostsSection from "./PostsSection";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function CommunityPage({ communityId }) {
-
+export default function CommunityPage() {
+    const {communityId} = useParams()
     const [posts, setPosts] = useState([]);
     const [community, setCommunity] = useState(null);
     const [joined, setJoined] = useState('');
@@ -33,7 +34,7 @@ export default function CommunityPage({ communityId }) {
         getPosts(communityId);
     }, []);
 
-    if (!community) return <div>Loading...</div>;   // <<< IMPORTANT
+    if (!community) return <div>Loading...</div>;
     return(
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Header community={community} setJoined={setJoined} joined={joined} />
